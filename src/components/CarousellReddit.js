@@ -17,8 +17,16 @@ export default class CarousellReddit extends React.Component {
   }
 
   handleReloadTopicList() {
+    const filteredList = api.getTopics().sort((a, b) => {
+      if (a.votes < b.votes)
+        return 1;
+      if (a.votes > b.votes)
+        return -1;
+      return 0;
+    }).slice(0, 20);
+
     this.setState({
-      topics: api.getTopics()
+      topics: filteredList,
     });
   }
 
@@ -37,7 +45,7 @@ export default class CarousellReddit extends React.Component {
 
     switch (this.state.page) {
       case 'Home':
-        currentPage = <HomePage topics={this.state.topics}/>;
+        currentPage = <HomePage topics={this.state.topics} onUpdate={this.handleReloadTopicList}/>;
         break;
 
       case 'Topics':
@@ -50,7 +58,7 @@ export default class CarousellReddit extends React.Component {
 
     return (
       <div>
-        <Nav current={this.state.page} onPageChange={this.handlePageChange}/>
+        <Nav current={this.state.page} onPageChange={this.handlePageChange} onUpdate={this.handleReloadTopicList}/>
         { currentPage }
       </div>
     );

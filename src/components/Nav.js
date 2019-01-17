@@ -9,6 +9,7 @@ export default class Nav extends React.Component {
 
   handleNavClick(target) {
     this.props.onPageChange(target);
+    this.props.onUpdate();
   }
 
   render() {

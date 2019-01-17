@@ -2,11 +2,21 @@ import React from 'react';
 import TopicCard from './TopicCard';
 
 export default class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleUpdate = this.handleUpdate.bind(this);
+  }
+
+  handleUpdate() {
+    this.props.onUpdate();
+  }
+
   render() {
     const topicLayout = this.props.topics.map((topic) => {
       return (
         <div className="col col-lg-4" key={topic.id}>
-          <TopicCard topic={topic}/>
+          <TopicCard topic={topic} onUpdate={this.handleUpdate}/>
         </div>
       );
     });
