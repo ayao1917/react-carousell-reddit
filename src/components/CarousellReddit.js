@@ -17,16 +17,18 @@ export default class CarousellReddit extends React.Component {
   }
 
   handleReloadTopicList() {
-    const filteredList = api.getTopics().sort((a, b) => {
-      if (a.votes < b.votes)
-        return 1;
-      if (a.votes > b.votes)
-        return -1;
-      return 0;
-    }).slice(0, 20);
+    api.getTopics().then((response) => {
+      const filteredList = response.data.sort((a, b) => {
+        if (a.votes < b.votes)
+          return 1;
+        if (a.votes > b.votes)
+          return -1;
+        return 0;
+      }).slice(0, 20);
 
-    this.setState({
-      topics: filteredList,
+      this.setState({
+        topics: filteredList,
+      });
     });
   }
 
